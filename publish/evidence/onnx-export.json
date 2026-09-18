@@ -1,0 +1,40 @@
+{
+  "sizes": {
+    "trunk": "sentence-transformers/all-MiniLM-L6-v2",
+    "parameters": 22716296,
+    "fp32_mb": 90.4,
+    "int8_mb": 22.9,
+    "pytorch_mb": 90.9
+  },
+  "agreement": {
+    "fp32": {
+      "route_agreement": 1.0,
+      "risk_agreement": 1.0,
+      "p0_recall": 1.0,
+      "p0_missed": 0,
+      "route_regret": 0.0,
+      "route_mean_cost": 0.1431,
+      "reference_p0_recall": 1.0,
+      "reference_regret": 0.0,
+      "reference_mean_cost": 0.1431,
+      "mean_cost_ratio": 1.0,
+      "passes": true,
+      "failed_because": ""
+    },
+    "int8": {
+      "route_agreement": 0.95222,
+      "risk_agreement": 0.96444,
+      "p0_recall": 1.0,
+      "p0_missed": 0,
+      "route_regret": 0.0,
+      "route_mean_cost": 0.1616,
+      "reference_p0_recall": 1.0,
+      "reference_regret": 0.0,
+      "reference_mean_cost": 0.1431,
+      "mean_cost_ratio": 1.12928,
+      "passes": false,
+      "failed_because": "cost blowout: 0.1616 > 0.1503"
+    }
+  },
+  "tolerance": 0.005
+}

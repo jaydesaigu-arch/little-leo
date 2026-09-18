@@ -2,61 +2,71 @@
   "trunk": "sentence-transformers/all-MiniLM-L6-v2",
   "parameters": 22716296,
   "regret_ratio": 20.0,
-  "train_seconds": 1020.8,
+  "train_seconds": 1188.3,
   "reports": {
     "test": {
       "split": "test",
       "route": {
         "n": 792,
-        "accuracy": 0.9634,
-        "downgraded": 0.7109,
-        "regret": 0.0051,
-        "wasteful": 0.0316,
-        "mean_cost": 0.1326,
-        "large_call_spend": 0.3157,
-        "spend_vs_always_large": 0.3157,
+        "accuracy": 0.9167,
+        "downgraded": 0.6566,
+        "regret": 0.0492,
+        "wasteful": 0.0341,
+        "mean_cost": 1.0189,
+        "large_call_spend": 0.3706,
+        "spend_vs_always_large": 0.3706,
         "regret_ratio": 20.0
       },
       "risk": {
         "n": 408,
-        "accuracy": 0.951,
+        "accuracy": 0.9093,
         "p0_support": 73,
-        "p0_recall": 0.726,
+        "p0_recall": 0.5068,
         "p0_precision": 1.0,
-        "p0_missed": 20,
-        "under_called": 20,
+        "p0_missed": 36,
+        "under_called": 37,
         "over_called": 0,
-        "mean_cost": 2.451
+        "mean_cost": 4.5343
       },
       "by_category": {
+        "comprehension_transform": {
+          "n": 52,
+          "accuracy": 0.404,
+          "regret": 0.596
+        },
         "conversational": {
-          "n": 97,
+          "n": 92,
           "accuracy": 1.0,
           "regret": 0.0
         },
         "hard": {
-          "n": 158,
-          "accuracy": 0.975,
-          "regret": 0.025
+          "n": 137,
+          "accuracy": 0.956,
+          "regret": 0.044
         },
         "hard_negative_large": {
-          "n": 75,
+          "n": 67,
+          "accuracy": 0.97,
+          "regret": 0.03
+        },
+        "hard_negative_trivial": {
+          "n": 67,
+          "accuracy": 0.955,
+          "regret": 0.0
+        },
+        "scope_restricted": {
+          "n": 55,
           "accuracy": 1.0,
           "regret": 0.0
         },
-        "hard_negative_trivial": {
-          "n": 74,
-          "accuracy": 0.986,
-          "regret": 0.0
-        },
         "simple": {
-          "n": 181,
+          "n": 149,
           "accuracy": 1.0,
           "regret": 0.0
         },
         "trivial": {
-          "n": 207,
-          "accuracy": 0.884,
+          "n": 173,
+          "accuracy": 0.861,
           "regret": 0.0
         }
       },
@@ -66,13 +76,13 @@
       "split": "audit",
       "route": {
         "n": 594,
-        "accuracy": 0.8569,
-        "downgraded": 0.6936,
+        "accuracy": 0.8737,
+        "downgraded": 0.5926,
         "regret": 0.0,
-        "wasteful": 0.1431,
-        "mean_cost": 0.1582,
-        "large_call_spend": 0.3421,
-        "spend_vs_always_large": 0.3421,
+        "wasteful": 0.1263,
+        "mean_cost": 0.1431,
+        "large_call_spend": 0.437,
+        "spend_vs_always_large": 0.437,
         "regret_ratio": 20.0
       },
       "risk": {
@@ -87,34 +97,44 @@
         "mean_cost": 0.0
       },
       "by_category": {
+        "comprehension_transform": {
+          "n": 40,
+          "accuracy": 1.0,
+          "regret": 0.0
+        },
         "conversational": {
-          "n": 81,
+          "n": 75,
           "accuracy": 1.0,
           "regret": 0.0
         },
         "hard": {
-          "n": 117,
+          "n": 101,
           "accuracy": 1.0,
           "regret": 0.0
         },
         "hard_negative_large": {
-          "n": 56,
+          "n": 50,
           "accuracy": 1.0,
           "regret": 0.0
         },
         "hard_negative_trivial": {
-          "n": 56,
-          "accuracy": 0.786,
+          "n": 50,
+          "accuracy": 0.82,
+          "regret": 0.0
+        },
+        "scope_restricted": {
+          "n": 41,
+          "accuracy": 1.0,
           "regret": 0.0
         },
         "simple": {
-          "n": 136,
+          "n": 111,
           "accuracy": 1.0,
           "regret": 0.0
         },
         "trivial": {
-          "n": 148,
-          "accuracy": 0.507,
+          "n": 126,
+          "accuracy": 0.476,
           "regret": 0.0
         }
       },

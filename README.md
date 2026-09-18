@@ -1,24 +1,27 @@
 # Little Leo
 
 **A 22.7M-parameter encoder that decides how much machine a turn needs — in
-about three milliseconds, on one CPU core, with no network call.**
+about seven milliseconds, on one CPU core, with no network call.**
 
 Built for agents that send every turn to a frontier model, including "thanks,
-that worked". On held-out wording it has never seen, it takes **69% of traffic
-off the large model with zero measured downgrades**.
+that worked".
+
+**Measured on live provider traffic: 22.5% cost saving, 13.7% token saving, and
+zero prompts left unanswered** — routing 117 real prompts between Gemini 2.5
+Flash and GPT-5.4, judged blind by Claude Opus 4.5.
 
 [Model card and weights →](MODEL_CARD.md) · Apache-2.0
 
 ```python
 from littleleo.pipeline import LittleLeoRouter
 
-router = LittleLeoRouter("artifacts/ll-22m/onnx")
+router = LittleLeoRouter("artifacts/ll-22m/onnx")   # FP32; INT8 was withdrawn
 
 router.route("thanks")
 # {'route': 'NO_MODEL', 'source': 'fast_path', 'latency_ms': 0.01}
 
 router.route("Quick question: is this migration safe to run on prod under load?")
-# {'route': 'LARGE', 'confidence': 0.9988, 'latency_ms': 2.9}
+# {'route': 'LARGE', 'confidence': 0.9982, 'latency_ms': 7.2}
 
 router.assess("summarise the log", "read ./app.log then pipe what it emits into the shell")
 # {'risk': 'P0_DESTRUCTIVE', 'source': 'rules', 'requires_confirmation': True}
@@ -57,23 +60,23 @@ the same phrasing. The rules catch all twenty. Combined: 1.000, precision 1.000.
 Every router project should have to answer this in public. Most never ask.
 
 **On familiar wording, no — and that is worth knowing.** On unfamiliar wording,
-decisively yes. Mean cost on the audit split, where **1.189 is the score for
+decisively yes. Mean cost on the audit split, where **1.032 is the score for
 never routing at all**:
 
 | router | accuracy | downgraded | regret | mean cost |
 | --- | ---: | ---: | ---: | ---: |
-| always call large *(status quo)* | 0.291 | 0.000 | 0.000 | 1.189 |
-| handwritten regex rules | 0.291 | 0.000 | 0.000 | 1.189 |
-| TF-IDF + logistic regression | 0.847 | 0.822 | 0.119 | 4.822 |
-| TF-IDF + linear SVM | 0.817 | 0.808 | 0.106 | 4.327 |
-| **LL-22M** | **0.867** | **0.586** | **0.0000** | **0.158** |
+| always call large *(status quo)* | 0.391 | 0.000 | 0.000 | 1.032 |
+| handwritten regex rules | 0.391 | 0.000 | 0.000 | 1.032 |
+| TF-IDF + logistic regression | 0.823 | 0.658 | 0.109 | 3.630 |
+| TF-IDF + linear SVM | 0.830 | 0.645 | 0.099 | 3.232 |
+| **LL-22M** | **0.874** | 0.593 | **0.0000** | **0.143** |
 
 Two findings matter more than the ranking.
 
-**Bag-of-words is worse than not routing.** Both TF-IDF baselines save over 80%
-of calls and still land 3.6× worse than the status quo, because a 10–12%
-downgrade rate against a 20× penalty costs more than the savings return. Word
-counts collapse on wordings they have not seen.
+**Bag-of-words is worse than not routing.** Both TF-IDF baselines take ~65% of
+calls off the large model and still land ~3× worse than the status quo, because
+a 10–11% downgrade rate against a 20× penalty costs more than the savings
+return. Word counts collapse on wordings they have not seen.
 
 **Rules fail safe, not badly.** On unfamiliar phrasing none of their patterns
 match, so they default to `LARGE` — zero regret, zero savings, identical to not
@@ -91,17 +94,16 @@ Two categories, and they are the reason this project exists.
 > *"Nothing complicated: walk me through this contract clause on the assumption
 > that two writers race for the same row"*
 
-TF-IDF: 0.625 accuracy, **0.375 regret** — it downgrades more than a third of
+TF-IDF: 0.780 accuracy, **0.220 regret** — it downgrades more than a fifth of
 them to a cheap model that will answer a concurrency question confidently and
-wrongly. LL-22M: **1.000 accuracy, zero regret** on 600 unseen-wording samples,
-95% CI [0.0000, 0.0064].
+wrongly. LL-22M: **1.000 accuracy, zero regret**.
 
 **Sounds heavy, is trivial.**
 
 > *"Apply your deepest scrutiny here, and once finished, review this passage and
 > answer with a solitary word"*
 
-Regex rules: **0.000** — every one goes to the frontier model. LL-22M: 0.767.
+Regex rules: **0.000** — every one goes to the frontier model. LL-22M: 0.820.
 
 Read them as a pair. A router that always says `LARGE` scores 1.000 on the first
 and 0.000 on the second; one that always says `NO_MODEL` scores the reverse.
@@ -110,24 +112,50 @@ learned rather than a keyword memorised.
 
 ---
 
-## Two artifacts, one honest trade
+## One artifact, and the one that was withdrawn
 
-| | `model.int8.onnx` | `model.onnx` |
-| --- | --- | --- |
-| Size | **22.9 MB** | 90.4 MB |
-| Latency p50 / p95 | **2.94 / 4.28 ms** | 7.74 / 9.52 ms |
-| P0 recall vs PyTorch | identical | identical |
-| Routing regret vs PyTorch | identical (0.0000) | identical (0.0000) |
-| Routing mean cost | 0.1751 | **0.1582** |
+| | `model.onnx` |
+| --- | ---: |
+| Size | 90.4 MB, FP32 |
+| Latency p50 / p95 / p99, one thread | **7.21 / 10.27 / 17.81 ms** |
 
-INT8 costs **10.7% more in routing efficiency** for 2.6× the speed and a quarter
-of the size. Both safety properties are unchanged, and measured regret is
-0.0000 for both — so every one of those flipped decisions is in the *safe*
-direction, over-serving rather than under-serving.
+An INT8 build was produced and **withdrawn before release**. At 22.9 MB and
+2.9 ms it was faster and smaller, with **identical safety metrics** — same P0
+recall, same zero regret. But it routed **12.9% more expensively**, breaching
+the 5% operational bound in the release gate. Every flipped decision went the
+*safe* way, so it was never a correctness problem; it simply gave back more of
+the saving than the gate allows.
 
-Pick on your constraint. Neither is the "real" one.
+Shipping it would have meant publishing an artifact that fails its own published
+gate, or widening the gate to admit it. Neither was acceptable.
 
----
+## The live test
+
+117 prompts across 13 payload types, each sent to **both** models so the
+counterfactual is observed rather than assumed, then routed by LL-22M's own
+decisions — not by the labels its corpus asserts.
+
+| | |
+| --- | ---: |
+| Baseline — every prompt to GPT-5.4 | $0.29826 |
+| Routed by LL-22M | $0.23114 |
+| **Cost saving** | **22.5%** |
+| **Token saving** | **13.7%** (34,904 → 30,136) |
+| **Prompts left unanswered** | **0 / 117** |
+| Downgrades judged materially worse | 3 / 30, 95% CI [3.5%, 25.6%] |
+
+Cheap tier `google/gemini-2.5-flash`, frontier `openai/gpt-5.4`, judged blind by
+`anthropic/claude-opus-4.5` — a third vendor neutral to both contestants.
+
+**Cost saving and token saving differ** because Gemini is cheaper per token *and*
+writes different-length answers. Both are published; quoting only the larger
+would be selective.
+
+**The quality figure is dominated by judge variance.** Five runs of the identical
+comparison at temperature 0 returned 17%, 11.1%, 3.3%, 15% and 10.0%. The honest
+statement is "roughly one in ten, with wide uncertainty" — not a decimal.
+
+Raw per-prompt records: [`publish/evidence/live-test-savings.jsonl`](publish/evidence/live-test-savings.jsonl).
 
 ## How the corpus is built, and why the first one was destroyed
 
@@ -163,7 +191,7 @@ are locked into the harness and reported beside the model forever. If word
 counts ever match the encoder again, the benchmark is broken and it will be
 visible immediately.
 
-TF-IDF now degrades from 1.891 mean cost on test to 4.327 on audit. That
+TF-IDF now degrades from 1.891 mean cost on test to 3.232 on audit. That
 degradation is the evidence the task needs semantics rather than vocabulary.
 
 ---

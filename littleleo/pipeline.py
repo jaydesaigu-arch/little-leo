@@ -125,8 +125,43 @@ class LittleLeoRouter:
     #: the abstain head that would do that properly is not trained yet.
     ABSTAIN_ENTROPY = 0.85
 
-    def __init__(self, directory: str | Path, quantised: bool = True,
+    #: Below this confidence, the routing hint is discarded and the host's own
+    #: default is used instead.
+    #:
+    #: Measured, not chosen for neatness. On the grounding fixture, every
+    #: correct ``NO_MODEL`` decision but one sat at 0.99 or above (median
+    #: 0.998), while both *wrong* ones sat at 0.481 and 0.735. A floor here
+    #: removes every case where the router declined to call anything for a task
+    #: that needed an answer -- the failure that costs nothing in dollars and
+    #: everything to the person waiting.
+    #:
+    #: 0.90 rather than 0.75: a 0.75 floor also worked on the sample, by a
+    #: margin of 0.005 over the worst wrong decision. That is a coincidence on
+    #: fourteen observations, not a separation. 0.90 clears the worst wrong
+    #: decision by 0.165 and still sits below the median correct one.
+    #:
+    #: It is not free. On the measured fixture it cost about six points of
+    #: saving, because one genuinely trivial turn sat near the boundary and is
+    #: now served by a real model. That is the intended direction: the floor
+    #: can only make a host spend *more*, never less.
+    CONFIDENCE_FLOOR = 0.90
+
+    def __init__(self, directory: str | Path, quantised: bool = False,
                  max_length: int = 64, threads: int = 1):
+        """Load the router. ``quantised`` defaults to False: see below.
+
+        An INT8 build was produced and **withdrawn before release**. Its safety
+        metrics were identical to FP32 -- same P0 recall, same zero regret --
+        but it routed 12.9% more expensively, breaching the 5% operational bound
+        the export gate enforces. Every one of those flipped decisions went the
+        *safe* way, so it was never a correctness problem; it simply gave back
+        more of the saving than the gate permits.
+
+        Rather than ship an artifact that fails its own published gate, or widen
+        the gate to let it through, only FP32 is released. Passing
+        ``quantised=True`` will look for a file this distribution does not
+        contain.
+        """
         import onnxruntime as ort
         from tokenizers import Tokenizer
 
@@ -154,22 +189,35 @@ class LittleLeoRouter:
 
         started = time.perf_counter()
         if conversational_fast_path(turn):
-            return {"route": "NO_MODEL", "confidence": 1.0, "entropy": 0.0,
-                    "abstained": False, "source": "fast_path",
+            # Same key set as the encoder path, so a caller never has to check
+            # which branch produced a decision before reading it.
+            return {"route": "NO_MODEL", "encoder_route": "NO_MODEL",
+                    "confidence": 1.0, "entropy": 0.0, "abstained": False,
+                    "abstain_reason": "", "source": "fast_path",
                     "latency_ms": round((time.perf_counter() - started) * 1000, 3)}
         outputs = self._run(f"[PRE] {turn}")
         probabilities = _softmax(list(outputs[0][0]))
         index = max(range(3), key=lambda i: probabilities[i])
+        confidence = probabilities[index]
         entropy = -sum(p * math.log(max(p, 1e-9)) for p in probabilities)
         normalised = entropy / math.log(3)
-        abstained = normalised > self.ABSTAIN_ENTROPY
+        # Two independent reasons to stop trusting the hint: the distribution is
+        # flat (entropy), or the winning class simply is not winning by much
+        # (confidence). They catch different failures, so both are checked.
+        low_confidence = confidence < self.CONFIDENCE_FLOOR
+        abstained = normalised > self.ABSTAIN_ENTROPY or low_confidence
         return {
             # On abstention the host is told to use its own default rather than
-            # being handed a guess dressed as a decision.
+            # being handed a guess dressed as a decision. The default is the
+            # most capable tier, because the invariant is that this model may
+            # only ever make a host more cautious or more expensive.
             "route": "LARGE" if abstained else ROUTE_LABELS[index],
-            "confidence": round(probabilities[index], 4),
+            "encoder_route": ROUTE_LABELS[index],
+            "confidence": round(confidence, 4),
             "entropy": round(normalised, 4),
             "abstained": abstained,
+            "abstain_reason": ("low_confidence" if low_confidence
+                               else "high_entropy" if abstained else ""),
             "source": "encoder",
             "latency_ms": round((time.perf_counter() - started) * 1000, 2),
         }

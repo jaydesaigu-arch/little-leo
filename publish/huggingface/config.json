@@ -1,0 +1,65 @@
+{
+  "model_type": "little-leo",
+  "architecture": "multi-head-encoder-classifier",
+  "base_trunk": "sentence-transformers/all-MiniLM-L6-v2",
+  "parameters": 22716296,
+  "hidden_size": 384,
+  "max_length": 64,
+  "pooling": "masked_mean",
+  "call_sites": {
+    "PRE": {
+      "when": "before any model is called",
+      "input_format": "[PRE] {turn}",
+      "heads": ["route", "abstain"]
+    },
+    "ACT": {
+      "when": "after a model proposes a tool call",
+      "input_format": "[ACT] {turn} [SEP] {proposed_action}",
+      "heads": ["risk", "gate"]
+    }
+  },
+  "onnx_output_order": ["route_logits", "risk_logits", "gate_logit", "abstain_logit"],
+  "heads": {
+    "route": {
+      "type": "softmax",
+      "size": 3,
+      "id2label": {"0": "NO_MODEL", "1": "SMALL", "2": "LARGE"},
+      "label2id": {"NO_MODEL": 0, "SMALL": 1, "LARGE": 2},
+      "standing": "advisory",
+      "note": "Abstract tiers. The host maps them onto whatever engines it runs."
+    },
+    "risk": {
+      "type": "softmax",
+      "size": 3,
+      "id2label": {"0": "P2_READONLY", "1": "P1_MUTABLE", "2": "P0_DESTRUCTIVE"},
+      "label2id": {"P2_READONLY": 0, "P1_MUTABLE": 1, "P0_DESTRUCTIVE": 2},
+      "standing": "advisory, escalate-only",
+      "note": "Combine as max(deterministic_rules, encoder). The encoder may raise a tier and may never lower one. Encoder-alone P0 recall is 0.726 on the test pool."
+    },
+    "gate": {
+      "type": "sigmoid",
+      "size": 1,
+      "meaning": "probability a human should confirm before the action runs",
+      "standing": "advisory"
+    },
+    "abstain": {
+      "type": "sigmoid",
+      "size": 1,
+      "meaning": "out-of-distribution signal",
+      "standing": "UNTRAINED",
+      "note": "Present so the exported graph shape is final. The corpus carries no OOD labels, so this head was not trained and its output is meaningless. The shipped pipeline derives abstention from route-head entropy instead, which is an uncertainty signal and not OOD detection."
+    }
+  },
+  "cost_matrix": {
+    "regret_ratio": 20,
+    "downgrade_cost": "20 * tier_distance",
+    "over_service_cost": "1 * tier_distance",
+    "note": "Fixed before training. The training objective is expected cost under this matrix, so the minimised quantity and the reported metric are the same function."
+  },
+  "artifacts": {
+    "model.onnx": {"precision": "fp32", "size_mb": 90.4, "p50_ms": 7.74, "audit_mean_cost": 0.1582},
+    "model.int8.onnx": {"precision": "int8-dynamic", "size_mb": 22.9, "p50_ms": 2.94, "audit_mean_cost": 0.1751,
+                        "note": "Safety metrics identical to fp32; 10.7% higher routing cost, entirely from over-service."}
+  },
+  "license": "apache-2.0"
+}

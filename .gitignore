@@ -15,3 +15,10 @@ data/*.log
 artifacts/*/model.pt
 artifacts/*/onnx/*.onnx
 artifacts/*/onnx/*.onnx.data
+
+# Provider keys dropped in by hand.
+Openrouter.txt
+openrouter.txt
+OPENROUTER*.txt
+*_key.txt
+*apikey*

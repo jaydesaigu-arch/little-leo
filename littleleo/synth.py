@@ -130,6 +130,55 @@ COLLAPSERS = {
           "and provide nothing beyond the numeral"],
 }
 
+#: Scope restrictions: "only" bounding *what may be consulted*, not how long the
+#: answer may be.
+#:
+#: Added after the grounding experiment. The v3 corpus used "only" exclusively
+#: as an output bound -- "reply with only the number" -- so the model learned
+#: `only -> NO_MODEL` and applied it to "using ONLY this letter, say whether the
+#: supplier breached what it promised". That is a hard reasoning task with a
+#: scope restriction attached, and it was routed to no-model-at-all at 0.96
+#: confidence. Confidently wrong, so no confidence threshold would have caught
+#: it; only training data can.
+#:
+#: These pair with a qualifier and stay LARGE. The point is that the same word
+#: carries opposite implications depending on what it restricts.
+SCOPE_RESTRICTIONS = {
+    "A": ["using only what is stated here",
+          "based solely on the material above",
+          "drawing only on this document",
+          "relying only on what is written"],
+    "B": ["working strictly from the text given",
+          "using nothing beyond this extract",
+          "confining yourself to the evidence here"],
+    "C": ["taking only this record into account",
+          "limited strictly to what appears above",
+          "with reference only to the passage supplied"],
+}
+
+#: Requests that *look* like a bounded transformation but cannot be done
+#: correctly without understanding the material.
+#:
+#: Also from the grounding experiment. "Summarise this caching scheme in two
+#: sentences" was labelled SMALL because summarising is a transformation -- and
+#: the cheap model, three times running, summarised a cache-aside pattern as
+#: write-through. It produced a fluent, confident, wrong summary.
+#:
+#: Task *shape* is not task *difficulty*. Transforming something you do not
+#: understand yields errors that read as authoritative, which is worse than an
+#: obviously bad answer. These are LARGE despite their transformational surface.
+COMPREHENSION_TRANSFORMS = {
+    "A": ["and summarise what it actually does, not what it appears to do",
+          "and describe the mechanism precisely enough that someone could rebuild it",
+          "and restate its behaviour including the case that is easy to miss",
+          "and explain it in two sentences without losing the distinction that matters"],
+    "B": ["and characterise the pattern it really implements",
+          "and put the semantics into plain words, getting the edge case right",
+          "and condense it without flattening the exception it depends on"],
+    "C": ["and render its behaviour accurately, including what it does not do",
+          "and express the rule it follows, distinguishing it from the obvious reading"],
+}
+
 #: Introduces a condition or dependency that has to be reasoned about.
 QUALIFIERS = {
     "A": ["given that it has to run under active load on the primary",
@@ -275,9 +324,10 @@ def _pre_examples(rng: random.Random, n: int, split: str) -> list[Example]:
     out: list[Example] = []
     # Uneven on purpose: real traffic is mostly easy. A balanced corpus would
     # overstate how much there is to save.
-    plan = [("conversational", 0.10), ("trivial", 0.26), ("simple", 0.24),
-            ("hard", 0.21), ("hard_negative_trivial", 0.095),
-            ("hard_negative_large", 0.095)]
+    plan = [("conversational", 0.09), ("trivial", 0.22), ("simple", 0.20),
+            ("hard", 0.18), ("hard_negative_trivial", 0.085),
+            ("hard_negative_large", 0.085),
+            ("scope_restricted", 0.07), ("comprehension_transform", 0.07)]
     for name, share in plan:
         for _ in range(max(1, int(n * share))):
             lead, obj = rng.choice(LEADS), rng.choice(OBJECTS)
@@ -296,6 +346,18 @@ def _pre_examples(rng: random.Random, n: int, split: str) -> list[Example]:
                 route = Route.SMALL
             elif name == "hard":
                 text = _sentence(lead, obj, rng.choice(qualifiers))
+                route = Route.LARGE
+            elif name == "scope_restricted":
+                # "only" restricting the SOURCE, paired with a real question.
+                # Stays LARGE: the restriction narrows what may be consulted,
+                # it does not shrink the thinking required.
+                text = _sentence(lead, obj, rng.choice(SCOPE_RESTRICTIONS[pool]),
+                                 rng.choice(qualifiers))
+                route = Route.LARGE
+            elif name == "comprehension_transform":
+                # Transformational surface, comprehension-dependent substance.
+                text = _sentence(lead, obj,
+                                 rng.choice(COMPREHENSION_TRANSFORMS[pool]))
                 route = Route.LARGE
             elif name == "hard_negative_trivial":
                 # Sounds like a research project; the collapser makes it a lookup.
@@ -412,5 +474,6 @@ def read_jsonl(path: Path) -> list[Example]:
     return rows
 
 
-__all__ = ["CONVERSATIONAL", "assert_no_overlap", "generate",
+__all__ = ["COMPREHENSION_TRANSFORMS", "CONVERSATIONAL",
+           "SCOPE_RESTRICTIONS", "assert_no_overlap", "generate",
            "read_jsonl", "write_jsonl"]

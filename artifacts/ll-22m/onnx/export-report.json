@@ -13,44 +13,28 @@
       "p0_recall": 1.0,
       "p0_missed": 0,
       "route_regret": 0.0,
-      "route_mean_cost": 0.1582,
+      "route_mean_cost": 0.1431,
       "reference_p0_recall": 1.0,
       "reference_regret": 0.0,
-      "reference_mean_cost": 0.1582,
+      "reference_mean_cost": 0.1431,
       "mean_cost_ratio": 1.0,
       "passes": true,
       "failed_because": ""
     },
     "int8": {
-      "route_agreement": 0.98111,
-      "risk_agreement": 0.95,
+      "route_agreement": 0.95222,
+      "risk_agreement": 0.96444,
       "p0_recall": 1.0,
       "p0_missed": 0,
       "route_regret": 0.0,
-      "route_mean_cost": 0.1751,
+      "route_mean_cost": 0.1616,
       "reference_p0_recall": 1.0,
       "reference_regret": 0.0,
-      "reference_mean_cost": 0.1582,
-      "mean_cost_ratio": 1.10683,
+      "reference_mean_cost": 0.1431,
+      "mean_cost_ratio": 1.12928,
       "passes": false,
-      "failed_because": "cost blowout: 0.1751 > 0.1661"
+      "failed_because": "cost blowout: 0.1616 > 0.1503"
     }
   },
-  "tolerance": 0.005,
-  "latency": {
-    "fp32": {
-      "p50_ms": 7.735,
-      "p95_ms": 9.52,
-      "p99_ms": 10.261,
-      "threads": 1,
-      "repeats": 200
-    },
-    "int8": {
-      "p50_ms": 2.941,
-      "p95_ms": 4.279,
-      "p99_ms": 5.009,
-      "threads": 1,
-      "repeats": 200
-    }
-  }
+  "tolerance": 0.005
 }
