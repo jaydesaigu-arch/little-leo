@@ -1,7 +1,17 @@
 .venv/
 __pycache__/
 *.pyc
+
+# Credentials — never committed, never logged.
+.env
+*.key
+secrets.*
+
+# Regenerable: the corpus is deterministic from a seed.
 data/corpus.jsonl
 data/*.log
+
+# Weights belong on the Hub, not in git.
 artifacts/*/model.pt
 artifacts/*/onnx/*.onnx
+artifacts/*/onnx/*.onnx.data
