@@ -1,0 +1,107 @@
+{
+  "split": "test",
+  "pre": 660,
+  "act": 339,
+  "results": {
+    "always_large": {
+      "route": {
+        "n": 660,
+        "accuracy": 0.2394,
+        "downgraded": 0.0,
+        "regret": 0.0,
+        "wasteful": 0.7606,
+        "mean_cost": 1.2015,
+        "large_call_spend": 1.0,
+        "spend_vs_always_large": 1.0,
+        "regret_ratio": 20.0
+      },
+      "risk": {
+        "n": 339,
+        "accuracy": 0.6696,
+        "p0_support": 57,
+        "p0_recall": 1.0,
+        "p0_precision": 1.0,
+        "p0_missed": 0,
+        "under_called": 112,
+        "over_called": 0,
+        "mean_cost": 16.5192
+      },
+      "microseconds_per_turn": 1.4
+    },
+    "always_small": {
+      "route": {
+        "n": 660,
+        "accuracy": 0.3197,
+        "downgraded": 1.0,
+        "regret": 0.2394,
+        "wasteful": 0.4409,
+        "mean_cost": 5.2288,
+        "large_call_spend": 0.1,
+        "spend_vs_always_large": 0.1,
+        "regret_ratio": 20.0
+      },
+      "risk": {
+        "n": 339,
+        "accuracy": 0.5015,
+        "p0_support": 57,
+        "p0_recall": 0.0,
+        "p0_precision": 0.0,
+        "p0_missed": 57,
+        "under_called": 169,
+        "over_called": 0,
+        "mean_cost": 33.3333
+      },
+      "microseconds_per_turn": 0.1
+    },
+    "always_no_model": {
+      "route": {
+        "n": 660,
+        "accuracy": 0.4409,
+        "downgraded": 1.0,
+        "regret": 0.5591,
+        "wasteful": 0.0,
+        "mean_cost": 15.9697,
+        "large_call_spend": 0.0,
+        "spend_vs_always_large": 0.0,
+        "regret_ratio": 20.0
+      },
+      "risk": {
+        "n": 339,
+        "accuracy": 0.5015,
+        "p0_support": 57,
+        "p0_recall": 0.0,
+        "p0_precision": 0.0,
+        "p0_missed": 57,
+        "under_called": 169,
+        "over_called": 0,
+        "mean_cost": 33.3333
+      },
+      "microseconds_per_turn": 0.1
+    },
+    "keyword": {
+      "route": {
+        "n": 660,
+        "accuracy": 0.8848,
+        "downgraded": 0.7273,
+        "regret": 0.0091,
+        "wasteful": 0.1061,
+        "mean_cost": 0.2879,
+        "large_call_spend": 0.3077,
+        "spend_vs_always_large": 0.3077,
+        "regret_ratio": 20.0
+      },
+      "risk": {
+        "n": 339,
+        "accuracy": 1.0,
+        "p0_support": 57,
+        "p0_recall": 1.0,
+        "p0_precision": 1.0,
+        "p0_missed": 0,
+        "under_called": 0,
+        "over_called": 0,
+        "mean_cost": 0.0
+      },
+      "microseconds_per_turn": 5.3
+    }
+  }
+}

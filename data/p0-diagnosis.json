@@ -1,0 +1,76 @@
+{
+  "test": {
+    "encoder": {
+      "n": 408,
+      "accuracy": 0.951,
+      "p0_support": 73,
+      "p0_recall": 0.726,
+      "p0_precision": 1.0,
+      "p0_missed": 20,
+      "under_called": 20,
+      "over_called": 0,
+      "mean_cost": 2.451
+    },
+    "regex": {
+      "n": 408,
+      "accuracy": 1.0,
+      "p0_support": 73,
+      "p0_recall": 1.0,
+      "p0_precision": 1.0,
+      "p0_missed": 0,
+      "under_called": 0,
+      "over_called": 0,
+      "mean_cost": 0.0
+    },
+    "combined": {
+      "n": 408,
+      "accuracy": 1.0,
+      "p0_support": 73,
+      "p0_recall": 1.0,
+      "p0_precision": 1.0,
+      "p0_missed": 0,
+      "under_called": 0,
+      "over_called": 0,
+      "mean_cost": 0.0
+    },
+    "missed_tails": {
+      "B: and afterwards purge every row it references": 20
+    }
+  },
+  "audit": {
+    "encoder": {
+      "n": 306,
+      "accuracy": 1.0,
+      "p0_support": 54,
+      "p0_recall": 1.0,
+      "p0_precision": 1.0,
+      "p0_missed": 0,
+      "under_called": 0,
+      "over_called": 0,
+      "mean_cost": 0.0
+    },
+    "regex": {
+      "n": 306,
+      "accuracy": 1.0,
+      "p0_support": 54,
+      "p0_recall": 1.0,
+      "p0_precision": 1.0,
+      "p0_missed": 0,
+      "under_called": 0,
+      "over_called": 0,
+      "mean_cost": 0.0
+    },
+    "combined": {
+      "n": 306,
+      "accuracy": 1.0,
+      "p0_support": 54,
+      "p0_recall": 1.0,
+      "p0_precision": 1.0,
+      "p0_missed": 0,
+      "under_called": 0,
+      "over_called": 0,
+      "mean_cost": 0.0
+    },
+    "missed_tails": {}
+  }
+}

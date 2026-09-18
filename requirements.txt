@@ -1,0 +1,4 @@
+# Inference only — this is all a host needs to run Little Leo.
+onnxruntime>=1.20
+tokenizers>=0.20
+numpy>=1.26

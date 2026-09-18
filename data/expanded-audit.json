@@ -1,0 +1,91 @@
+{
+  "route": {
+    "n": 3078,
+    "accuracy": 0.8668,
+    "downgraded": 0.5858,
+    "regret": 0.0,
+    "wasteful": 0.1332,
+    "mean_cost": 0.1576,
+    "large_call_spend": 0.4446,
+    "spend_vs_always_large": 0.4446,
+    "regret_ratio": 20.0
+  },
+  "risk": {
+    "n": 1800,
+    "accuracy": 0.9983,
+    "p0_support": 600,
+    "p0_recall": 1.0,
+    "p0_precision": 1.0,
+    "p0_missed": 0,
+    "under_called": 0,
+    "over_called": 3,
+    "mean_cost": 0.0017
+  },
+  "categories": {
+    "conversational": {
+      "n": 78,
+      "accuracy": 1.0,
+      "regret": 0.0,
+      "regret_ci95": [
+        0.0,
+        0.0469
+      ]
+    },
+    "hard": {
+      "n": 600,
+      "accuracy": 1.0,
+      "regret": 0.0,
+      "regret_ci95": [
+        0.0,
+        0.0064
+      ]
+    },
+    "hard_negative_large": {
+      "n": 600,
+      "accuracy": 1.0,
+      "regret": 0.0,
+      "regret_ci95": [
+        0.0,
+        0.0064
+      ]
+    },
+    "hard_negative_trivial": {
+      "n": 600,
+      "accuracy": 0.7667,
+      "regret": 0.0,
+      "regret_ci95": [
+        0.0,
+        0.0064
+      ]
+    },
+    "simple": {
+      "n": 600,
+      "accuracy": 1.0,
+      "regret": 0.0,
+      "regret_ci95": [
+        0.0,
+        0.0064
+      ]
+    },
+    "trivial": {
+      "n": 600,
+      "accuracy": 0.55,
+      "regret": 0.0,
+      "regret_ci95": [
+        0.0,
+        0.0064
+      ]
+    }
+  },
+  "risk_combined": {
+    "n": 1800,
+    "accuracy": 0.9983,
+    "p0_support": 600,
+    "p0_recall": 1.0,
+    "p0_precision": 1.0,
+    "p0_missed": 0,
+    "under_called": 0,
+    "over_called": 3,
+    "mean_cost": 0.0017
+  }
+}

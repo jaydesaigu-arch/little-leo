@@ -1,0 +1,7 @@
+.venv/
+__pycache__/
+*.pyc
+data/corpus.jsonl
+data/*.log
+artifacts/*/model.pt
+artifacts/*/onnx/*.onnx

@@ -1,0 +1,7 @@
+# Reproducing the corpus, training, evaluation and export.
+-r requirements.txt
+torch>=2.4            # CPU build is sufficient; no GPU required
+transformers>=4.44
+onnx>=1.16
+onnxscript>=0.1       # torch>=2.9 needs this for ONNX export
+scikit-learn>=1.5     # the TF-IDF control baselines

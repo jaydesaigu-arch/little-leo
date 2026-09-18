@@ -1,0 +1,321 @@
+{
+  "audit": {
+    "split": "audit",
+    "pre": 594,
+    "act": 306,
+    "results": {
+      "always_large": {
+        "route": {
+          "n": 594,
+          "accuracy": 0.2862,
+          "downgraded": 0.0,
+          "regret": 0.0,
+          "wasteful": 0.7138,
+          "mean_cost": 1.1734,
+          "large_call_spend": 1.0,
+          "spend_vs_always_large": 1.0,
+          "regret_ratio": 20.0
+        },
+        "risk": {
+          "n": 306,
+          "accuracy": 0.683,
+          "p0_support": 55,
+          "p0_recall": 1.0,
+          "p0_precision": 1.0,
+          "p0_missed": 0,
+          "under_called": 97,
+          "over_called": 0,
+          "mean_cost": 15.8497
+        },
+        "by_category": {
+          "hard": {
+            "n": 123,
+            "accuracy": 1.0,
+            "regret": 0.0
+          },
+          "hard_negative_large": {
+            "n": 47,
+            "accuracy": 1.0,
+            "regret": 0.0
+          },
+          "hard_negative_trivial": {
+            "n": 47,
+            "accuracy": 0.0,
+            "regret": 0.0
+          },
+          "simple": {
+            "n": 151,
+            "accuracy": 0.0,
+            "regret": 0.0
+          },
+          "trivial": {
+            "n": 226,
+            "accuracy": 0.0,
+            "regret": 0.0
+          }
+        },
+        "microseconds_per_turn": 1.7
+      },
+      "always_small": {
+        "route": {
+          "n": 594,
+          "accuracy": 0.2542,
+          "downgraded": 1.0,
+          "regret": 0.2862,
+          "wasteful": 0.4596,
+          "mean_cost": 6.1835,
+          "large_call_spend": 0.1,
+          "spend_vs_always_large": 0.1,
+          "regret_ratio": 20.0
+        },
+        "risk": {
+          "n": 306,
+          "accuracy": 0.5033,
+          "p0_support": 55,
+          "p0_recall": 0.0,
+          "p0_precision": 0.0,
+          "p0_missed": 55,
+          "under_called": 152,
+          "over_called": 0,
+          "mean_cost": 33.8235
+        },
+        "by_category": {
+          "hard": {
+            "n": 123,
+            "accuracy": 0.0,
+            "regret": 1.0
+          },
+          "hard_negative_large": {
+            "n": 47,
+            "accuracy": 0.0,
+            "regret": 1.0
+          },
+          "hard_negative_trivial": {
+            "n": 47,
+            "accuracy": 0.0,
+            "regret": 0.0
+          },
+          "simple": {
+            "n": 151,
+            "accuracy": 1.0,
+            "regret": 0.0
+          },
+          "trivial": {
+            "n": 226,
+            "accuracy": 0.0,
+            "regret": 0.0
+          }
+        },
+        "microseconds_per_turn": 0.1
+      },
+      "always_no_model": {
+        "route": {
+          "n": 594,
+          "accuracy": 0.4596,
+          "downgraded": 1.0,
+          "regret": 0.5404,
+          "wasteful": 0.0,
+          "mean_cost": 16.532,
+          "large_call_spend": 0.0,
+          "spend_vs_always_large": 0.0,
+          "regret_ratio": 20.0
+        },
+        "risk": {
+          "n": 306,
+          "accuracy": 0.5033,
+          "p0_support": 55,
+          "p0_recall": 0.0,
+          "p0_precision": 0.0,
+          "p0_missed": 55,
+          "under_called": 152,
+          "over_called": 0,
+          "mean_cost": 33.8235
+        },
+        "by_category": {
+          "hard": {
+            "n": 123,
+            "accuracy": 0.0,
+            "regret": 1.0
+          },
+          "hard_negative_large": {
+            "n": 47,
+            "accuracy": 0.0,
+            "regret": 1.0
+          },
+          "hard_negative_trivial": {
+            "n": 47,
+            "accuracy": 1.0,
+            "regret": 0.0
+          },
+          "simple": {
+            "n": 151,
+            "accuracy": 0.0,
+            "regret": 1.0
+          },
+          "trivial": {
+            "n": 226,
+            "accuracy": 1.0,
+            "regret": 0.0
+          }
+        },
+        "microseconds_per_turn": 0.1
+      },
+      "keyword": {
+        "route": {
+          "n": 594,
+          "accuracy": 0.2862,
+          "downgraded": 0.0,
+          "regret": 0.0,
+          "wasteful": 0.7138,
+          "mean_cost": 1.1734,
+          "large_call_spend": 1.0,
+          "spend_vs_always_large": 1.0,
+          "regret_ratio": 20.0
+        },
+        "risk": {
+          "n": 306,
+          "accuracy": 1.0,
+          "p0_support": 55,
+          "p0_recall": 1.0,
+          "p0_precision": 1.0,
+          "p0_missed": 0,
+          "under_called": 0,
+          "over_called": 0,
+          "mean_cost": 0.0
+        },
+        "by_category": {
+          "hard": {
+            "n": 123,
+            "accuracy": 1.0,
+            "regret": 0.0
+          },
+          "hard_negative_large": {
+            "n": 47,
+            "accuracy": 1.0,
+            "regret": 0.0
+          },
+          "hard_negative_trivial": {
+            "n": 47,
+            "accuracy": 0.0,
+            "regret": 0.0
+          },
+          "simple": {
+            "n": 151,
+            "accuracy": 0.0,
+            "regret": 0.0
+          },
+          "trivial": {
+            "n": 226,
+            "accuracy": 0.0,
+            "regret": 0.0
+          }
+        },
+        "microseconds_per_turn": 2.6
+      },
+      "tfidf_logreg": {
+        "route": {
+          "n": 594,
+          "accuracy": 0.8232,
+          "downgraded": 0.8182,
+          "regret": 0.1044,
+          "wasteful": 0.0724,
+          "mean_cost": 4.2475,
+          "large_call_spend": 0.2145,
+          "spend_vs_always_large": 0.2145,
+          "regret_ratio": 20.0
+        },
+        "risk": {
+          "n": 306,
+          "accuracy": 0.598,
+          "p0_support": 55,
+          "p0_recall": 0.0,
+          "p0_precision": 0.0,
+          "p0_missed": 55,
+          "under_called": 123,
+          "over_called": 0,
+          "mean_cost": 20.2614
+        },
+        "by_category": {
+          "hard": {
+            "n": 123,
+            "accuracy": 0.61,
+            "regret": 0.39
+          },
+          "hard_negative_large": {
+            "n": 47,
+            "accuracy": 0.702,
+            "regret": 0.298
+          },
+          "hard_negative_trivial": {
+            "n": 47,
+            "accuracy": 1.0,
+            "regret": 0.0
+          },
+          "simple": {
+            "n": 151,
+            "accuracy": 1.0,
+            "regret": 0.0
+          },
+          "trivial": {
+            "n": 226,
+            "accuracy": 0.81,
+            "regret": 0.0
+          }
+        },
+        "microseconds_per_turn": 11.6
+      },
+      "tfidf_linearsvc": {
+        "route": {
+          "n": 594,
+          "accuracy": 0.7879,
+          "downgraded": 0.8148,
+          "regret": 0.101,
+          "wasteful": 0.1111,
+          "mean_cost": 4.1515,
+          "large_call_spend": 0.2217,
+          "spend_vs_always_large": 0.2217,
+          "regret_ratio": 20.0
+        },
+        "risk": {
+          "n": 306,
+          "accuracy": 0.6993,
+          "p0_support": 55,
+          "p0_recall": 0.0364,
+          "p0_precision": 1.0,
+          "p0_missed": 53,
+          "under_called": 92,
+          "over_called": 0,
+          "mean_cost": 15.0327
+        },
+        "by_category": {
+          "hard": {
+            "n": 123,
+            "accuracy": 0.618,
+            "regret": 0.382
+          },
+          "hard_negative_large": {
+            "n": 47,
+            "accuracy": 0.723,
+            "regret": 0.277
+          },
+          "hard_negative_trivial": {
+            "n": 47,
+            "accuracy": 1.0,
+            "regret": 0.0
+          },
+          "simple": {
+            "n": 151,
+            "accuracy": 1.0,
+            "regret": 0.0
+          },
+          "trivial": {
+            "n": 226,
+            "accuracy": 0.708,
+            "regret": 0.0
+          }
+        },
+        "microseconds_per_turn": 10.8
+      }
+    }
+  }
+}

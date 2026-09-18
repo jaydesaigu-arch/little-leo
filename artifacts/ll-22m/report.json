@@ -1,0 +1,124 @@
+{
+  "trunk": "sentence-transformers/all-MiniLM-L6-v2",
+  "parameters": 22716296,
+  "regret_ratio": 20.0,
+  "train_seconds": 1020.8,
+  "reports": {
+    "test": {
+      "split": "test",
+      "route": {
+        "n": 792,
+        "accuracy": 0.9634,
+        "downgraded": 0.7109,
+        "regret": 0.0051,
+        "wasteful": 0.0316,
+        "mean_cost": 0.1326,
+        "large_call_spend": 0.3157,
+        "spend_vs_always_large": 0.3157,
+        "regret_ratio": 20.0
+      },
+      "risk": {
+        "n": 408,
+        "accuracy": 0.951,
+        "p0_support": 73,
+        "p0_recall": 0.726,
+        "p0_precision": 1.0,
+        "p0_missed": 20,
+        "under_called": 20,
+        "over_called": 0,
+        "mean_cost": 2.451
+      },
+      "by_category": {
+        "conversational": {
+          "n": 97,
+          "accuracy": 1.0,
+          "regret": 0.0
+        },
+        "hard": {
+          "n": 158,
+          "accuracy": 0.975,
+          "regret": 0.025
+        },
+        "hard_negative_large": {
+          "n": 75,
+          "accuracy": 1.0,
+          "regret": 0.0
+        },
+        "hard_negative_trivial": {
+          "n": 74,
+          "accuracy": 0.986,
+          "regret": 0.0
+        },
+        "simple": {
+          "n": 181,
+          "accuracy": 1.0,
+          "regret": 0.0
+        },
+        "trivial": {
+          "n": 207,
+          "accuracy": 0.884,
+          "regret": 0.0
+        }
+      },
+      "padded_to": 44
+    },
+    "audit": {
+      "split": "audit",
+      "route": {
+        "n": 594,
+        "accuracy": 0.8569,
+        "downgraded": 0.6936,
+        "regret": 0.0,
+        "wasteful": 0.1431,
+        "mean_cost": 0.1582,
+        "large_call_spend": 0.3421,
+        "spend_vs_always_large": 0.3421,
+        "regret_ratio": 20.0
+      },
+      "risk": {
+        "n": 306,
+        "accuracy": 1.0,
+        "p0_support": 54,
+        "p0_recall": 1.0,
+        "p0_precision": 1.0,
+        "p0_missed": 0,
+        "under_called": 0,
+        "over_called": 0,
+        "mean_cost": 0.0
+      },
+      "by_category": {
+        "conversational": {
+          "n": 81,
+          "accuracy": 1.0,
+          "regret": 0.0
+        },
+        "hard": {
+          "n": 117,
+          "accuracy": 1.0,
+          "regret": 0.0
+        },
+        "hard_negative_large": {
+          "n": 56,
+          "accuracy": 1.0,
+          "regret": 0.0
+        },
+        "hard_negative_trivial": {
+          "n": 56,
+          "accuracy": 0.786,
+          "regret": 0.0
+        },
+        "simple": {
+          "n": 136,
+          "accuracy": 1.0,
+          "regret": 0.0
+        },
+        "trivial": {
+          "n": 148,
+          "accuracy": 0.507,
+          "regret": 0.0
+        }
+      },
+      "padded_to": 42
+    }
+  }
+}
