@@ -128,6 +128,31 @@ ABSTAIN = "abstain"
 #: buried in the evaluation.
 DEFAULT_REGRET_RATIO = 20.0
 
+#: Token ceiling for both call sites. It **truncates**; it does not pad. Every
+#: encoder in this repository tokenises with ``padding="longest"``, so a turn
+#: costs what its own length costs and a turn shorter than the ceiling is
+#: unaffected by where the ceiling sits. Raising it is free for short traffic
+#: and is paid for only by turns that are genuinely long.
+#:
+#: It lives in the contract rather than beside the training code because it is a
+#: property of the published artifact: a host tokenising differently from the
+#: exporter gets different answers from the same weights.
+#:
+#: **Why 256 and not 64.** Under this corpus the decisive clause is always the
+#: *last* element of a turn — ``_sentence(lead, obj, collapser)`` and every
+#: sibling in ``synth.py`` put the collapser, qualifier or transform at the end.
+#: Truncation therefore does not merely degrade the input, it removes precisely
+#: the span that carries the label, leaving a bare lead and object that is
+#: ambiguous across all three tiers by construction. For this architecture a
+#: clipped turn is worse than a short one: it is a confidently mislabelled one.
+#:
+#: 64 was never measured as sufficient. It was inherited from a corpus whose
+#: longest example is 47 tokens, and it silently clipped real traffic that the
+#: corpus does not contain. Raising it removes that failure mode; it does not
+#: teach the model about long turns, which no ceiling can do — see the model
+#: card's limitation on input length.
+MAX_LENGTH = 256
+
 
 def route_cost(true: Route, predicted: Route,
                regret_ratio: float = DEFAULT_REGRET_RATIO) -> float:
@@ -214,7 +239,8 @@ SPLITS = ("train", "dev", "test", "audit")
 
 
 __all__ = [
-    "ABSTAIN", "DEFAULT_REGRET_RATIO", "Example", "GATE", "RISK_NAMES",
+    "ABSTAIN", "DEFAULT_REGRET_RATIO", "Example", "GATE", "MAX_LENGTH",
+    "RISK_NAMES",
     "ROUTE_NAMES", "Risk", "Route", "SITES", "SITE_ACT", "SITE_MARKERS",
     "SITE_PRE", "SPLITS", "risk_cost", "route_cost",
 ]

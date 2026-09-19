@@ -1,0 +1,48 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loading weights:   0%|          | 0/134 [00:00<?, ?it/s]Loading weights:  10%|#         | 14/134 [00:00<00:01, 104.64it/s]Loading weights:  19%|#8        | 25/134 [00:00<00:01, 62.93it/s] Loading weights:  27%|##6       | 36/134 [00:00<00:01, 76.03it/s]Loading weights: 100%|##########| 134/134 [00:00<00:00, 281.21it/s]
+[transformers] [1mModernBertModel LOAD REPORT[0m from: answerdotai/ModernBERT-base
+Key               | Status     |  | 
+------------------+------------+--+-
+decoder.bias      | UNEXPECTED |  | 
+head.norm.weight  | UNEXPECTED |  | 
+head.dense.weight | UNEXPECTED |  | 
+
+Notes:
+- UNEXPECTED:	can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+D:\Little Leo\scripts\export_onnx.py:103: DeprecationWarning: You are using the legacy TorchScript-based ONNX export. Starting in PyTorch 2.9, the new torch.export-based ONNX exporter has become the default. Learn more about the new export logic: https://docs.pytorch.org/docs/stable/onnx_export.html. For exporting control flow: https://pytorch.org/tutorials/beginner/onnx/export_control_flow_model_to_onnx_tutorial.html
+  torch.onnx.export(
+D:\Little Leo\.venv\Lib\site-packages\transformers\masking_utils.py:213: TracerWarning: Converting a tensor to a Python boolean might cause the trace to be incorrect. We can't record the data flow of Python values, so this value will be treated as a constant in the future. This means that the trace might not generalize to other inputs!
+  if (padding_length := kv_length + kv_offset - attention_mask.shape[-1]) > 0:
+D:\Little Leo\.venv\Lib\site-packages\transformers\integrations\sdpa_attention.py:124: TracerWarning: Converting a tensor to a Python boolean might cause the trace to be incorrect. We can't record the data flow of Python values, so this value will be treated as a constant in the future. This means that the trace might not generalize to other inputs!
+  is_causal = q_length > 1 and attention_mask is None and is_causal
+D:\Little Leo\.venv\Lib\site-packages\torch\onnx\_internal\torchscript_exporter\symbolic_opset11.py:955: UserWarning: Exporting aten::index operator of advanced indexing in opset 17 is achieved by combination of multiple ONNX operators, including Reshape, Transpose, Concat, and Gather. If indices include negative values, the exported graph will produce incorrect results.
+  return opset9.index(g, self, index)
+excluding 4 head node(s) from quantisation: ['/model/route_head/Gemm', '/model/risk_head/Gemm', '/model/gate_head/Gemm', '/model/abstain_head/Gemm']
+WARNING:root:Please consider to run pre-processing before quantization. Refer to example: https://github.com/microsoft/onnxruntime-inference-examples/blob/main/quantization/image_classification/cpu/ReadMe.md 
+{
+  "trunk": "answerdotai/ModernBERT-base",
+  "parameters": 149020424,
+  "fp32_mb": 596.8,
+  "int8_mb": 150.2,
+  "pytorch_mb": 596.1
+}
+Loading weights:   0%|          | 0/134 [00:00<?, ?it/s]Loading weights:  16%|#5        | 21/134 [00:00<00:00, 192.17it/s]Loading weights:  31%|###       | 41/134 [00:00<00:00, 185.40it/s]Loading weights:  45%|####4     | 60/134 [00:00<00:00, 128.46it/s]Loading weights: 100%|##########| 134/134 [00:00<00:00, 314.62it/s]
+[transformers] [1mModernBertModel LOAD REPORT[0m from: answerdotai/ModernBERT-base
+Key               | Status     |  | 
+------------------+------------+--+-
+decoder.bias      | UNEXPECTED |  | 
+head.norm.weight  | UNEXPECTED |  | 
+head.dense.weight | UNEXPECTED |  | 
+
+Notes:
+- UNEXPECTED:	can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+
+export agreement with PyTorch (n=900):
+  fp32  route 1.00000  risk 1.00000  -> FAIL
+  int8  route 0.72889  risk 0.69000  -> FAIL
+
+single-turn latency, 1 thread:
+  fp32  p50 73.20 ms  p95 80.08 ms  p99 110.03 ms
+  int8  p50 25.46 ms  p95 34.34 ms  p99 61.87 ms
+
+written: artifacts\ll-150m\onnx

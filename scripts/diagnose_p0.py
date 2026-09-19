@@ -20,6 +20,7 @@ the model is allowed near a destructive operation at all.
 
 from __future__ import annotations
 
+import argparse
 import json
 import sys
 from collections import Counter
@@ -72,8 +73,20 @@ def which_tail(action: str) -> str:
     return "unmatched"
 
 
-def main() -> int:
-    artifact = ROOT / "artifacts" / "ll-22m"
+def main(argv: list[str] | None = None) -> int:
+    # Parameterised because this script silently analysed a stale artifact once
+    # already. A diagnosis that names the wrong model is worse than no
+    # diagnosis: it reads as evidence. The defaults reproduce the 22M run.
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--artifact", type=Path,
+                        default=ROOT / "artifacts" / "ll-22m")
+    parser.add_argument("--out", type=Path, default=None,
+                        help="defaults to data/p0-diagnosis-<artifact name>.json")
+    args = parser.parse_args(argv)
+
+    artifact = args.artifact
+    out_path = args.out or (ROOT / "data" / f"p0-diagnosis-{artifact.name}.json")
+    print(f"artifact: {artifact}")
     model, tokenizer = load(artifact)
     rows = read_jsonl(ROOT / "data" / "corpus.jsonl")
 
@@ -125,11 +138,12 @@ def main() -> int:
                   f"tokens={flags or 'none'}")
             print(f"       {tail}")
 
-    (ROOT / "data" / "p0-diagnosis.json").write_text(
+    summary["artifact"] = str(artifact)
+    out_path.write_text(
         json.dumps(summary, indent=2, default=str), encoding="utf-8")
-    print(f"\nwritten: {ROOT / 'data' / 'p0-diagnosis.json'}")
+    print(f"written: {out_path}")
     return 0
 
 
 if __name__ == "__main__":
-    raise SystemExit(main())
+    raise SystemExit(main(sys.argv[1:]))

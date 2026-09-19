@@ -25,6 +25,9 @@ import shutil
 import sys
 from pathlib import Path
 
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+from littleleo.schema import MAX_LENGTH  # noqa: E402
+
 ROOT = Path(__file__).resolve().parents[1]
 PUBLISH = ROOT / "publish"
 
@@ -56,6 +59,8 @@ CLAIMS = [
     ("0 / 117", "prompts left unanswered"),
     ("90.4 MB", "artifact size"),
     ("22,716,296", "parameter count"),
+    ("0.476", "audit trivial accuracy"),
+    ("256", "input token ceiling"),
 ]
 
 
@@ -92,6 +97,62 @@ def verify_claims() -> list[str]:
     for phrase, what in CLAIMS:
         if phrase not in card:
             problems.append(f"card is missing its {what} figure ({phrase})")
+
+    # config.json ships to the Hub beside the card and is a second copy of the
+    # same claims. It drifted once already -- it carried a previous run's mean
+    # cost and advertised the withdrawn INT8 build as a release artifact -- so
+    # it is checked against the evidence rather than trusted.
+    config = json.loads((ROOT / "config.json").read_text(encoding="utf-8"))
+    export = json.loads(
+        (ROOT / "artifacts" / "ll-22m" / "onnx" / "export-report.json")
+        .read_text(encoding="utf-8"))
+
+    measured_cost = export["agreement"]["fp32"]["route_mean_cost"]
+    stated_cost = config["artifacts"]["model.onnx"]["audit_mean_cost"]
+    if abs(stated_cost - measured_cost) > 1e-9:
+        problems.append(f"config.json states fp32 mean cost {stated_cost}; "
+                        f"the export report measured {measured_cost}")
+
+    if "model.int8.onnx" in config.get("artifacts", {}):
+        problems.append("config.json advertises the withdrawn INT8 build as a "
+                        "released artifact")
+
+    if config.get("max_length") != MAX_LENGTH:
+        problems.append(f"config.json states max_length "
+                        f"{config.get('max_length')}; the contract says "
+                        f"{MAX_LENGTH}")
+
+    # A host loading through transformers reads the ceiling from here, not from
+    # config.json, so this copy is checked too. It shipped as 128/512 once.
+    tok = json.loads(
+        (ROOT / "artifacts" / "ll-22m" / "onnx" / "tokenizer_config.json")
+        .read_text(encoding="utf-8"))
+    for field in ("max_length", "model_max_length"):
+        if tok.get(field) != MAX_LENGTH:
+            problems.append(f"tokenizer_config.json {field} is "
+                            f"{tok.get(field)}; the contract says {MAX_LENGTH}")
+
+    stated_p50 = config["artifacts"]["model.onnx"]["p50_ms"]
+    if f"{stated_p50} / " not in card:
+        problems.append(f"config.json states p50 {stated_p50} ms, which the "
+                        f"card does not state")
+
+    report = json.loads(
+        (ROOT / "artifacts" / "ll-22m" / "report.json").read_text(
+            encoding="utf-8"))
+    trivial = report["reports"]["audit"]["by_category"]["trivial"]["accuracy"]
+    if f"{trivial:.3f}" not in card:
+        problems.append(f"card does not state the measured audit trivial "
+                        f"accuracy {trivial:.3f}")
+
+    ratio = export["agreement"]["int8"]["mean_cost_ratio"]
+    int8_pct = f"{(ratio - 1) * 100:.1f}%"
+    if int8_pct not in card:
+        problems.append(f"card does not state the measured INT8 cost increase "
+                        f"{int8_pct}")
+    if int8_pct not in config["withdrawn"]["model.int8.onnx"]["reason"]:
+        problems.append(f"config.json withdrawal note does not state the "
+                        f"measured INT8 cost increase {int8_pct}")
     return problems
 
 

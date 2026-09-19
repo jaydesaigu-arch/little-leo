@@ -22,3 +22,8 @@ openrouter.txt
 OPENROUTER*.txt
 *_key.txt
 *apikey*
+
+# Local integrity snapshots. Sealed copies of publish/ used to prove the
+# shipped weights never changed; five ~86MB duplicates of the same ONNX.
+# Verified with scripts/package_release.py --check, not distributed.
+safeguard/

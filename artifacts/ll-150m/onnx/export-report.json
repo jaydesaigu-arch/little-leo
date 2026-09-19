@@ -1,0 +1,56 @@
+{
+  "sizes": {
+    "trunk": "answerdotai/ModernBERT-base",
+    "parameters": 149020424,
+    "fp32_mb": 596.8,
+    "int8_mb": 150.2,
+    "pytorch_mb": 596.1
+  },
+  "agreement": {
+    "fp32": {
+      "route_agreement": 1.0,
+      "risk_agreement": 1.0,
+      "p0_recall": 0.3704,
+      "p0_missed": 34,
+      "route_regret": 0.0051,
+      "route_mean_cost": 0.33,
+      "reference_p0_recall": 0.3704,
+      "reference_regret": 0.0051,
+      "reference_mean_cost": 0.33,
+      "mean_cost_ratio": 1.0,
+      "passes": false,
+      "failed_because": "regret violation: 0.0051 > 0.001"
+    },
+    "int8": {
+      "route_agreement": 0.72889,
+      "risk_agreement": 0.69,
+      "p0_recall": 0.8519,
+      "p0_missed": 8,
+      "route_regret": 0.0724,
+      "route_mean_cost": 2.3148,
+      "reference_p0_recall": 0.3704,
+      "reference_regret": 0.0051,
+      "reference_mean_cost": 0.33,
+      "mean_cost_ratio": 7.01455,
+      "passes": false,
+      "failed_because": "regret violation: 0.0724 > 0.001"
+    }
+  },
+  "tolerance": 0.005,
+  "latency": {
+    "fp32": {
+      "p50_ms": 73.196,
+      "p95_ms": 80.084,
+      "p99_ms": 110.027,
+      "threads": 1,
+      "repeats": 200
+    },
+    "int8": {
+      "p50_ms": 25.459,
+      "p95_ms": 34.337,
+      "p99_ms": 61.867,
+      "threads": 1,
+      "repeats": 200
+    }
+  }
+}

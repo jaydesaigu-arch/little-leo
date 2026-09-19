@@ -1,0 +1,25 @@
+A = ll-22m   B = ll-150m
+117 prompts, ceiling $2.50
+
+  20/117  $0.070
+  40/117  $0.133
+  60/117  $0.211
+  80/117  $0.326
+  100/117  $0.395
+
+spent $0.4587 over 267 calls
+
+                          baseline        ll-22m       ll-150m
+cost usd                   0.30615       0.23945       0.24072
+cost saving                     --         21.8%         21.4%
+tokens                       35430         30634         28866
+token saving                    --         13.5%         18.5%
+unanswered                      --         0/117         6/117
+downgrades                      --            63            54
+judged worse                    --             2             1
+
+routing disagreements: 30/117
+  ll-22m     LARGE 54  NO_MODEL 33  SMALL 30
+  ll-150m    LARGE 63  NO_MODEL 36  SMALL 18
+
+written: data\savings-ab-149m.jsonl

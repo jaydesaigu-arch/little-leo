@@ -1,0 +1,80 @@
+{
+  "test": {
+    "encoder": {
+      "n": 408,
+      "accuracy": 0.7696,
+      "p0_support": 73,
+      "p0_recall": 0.4932,
+      "p0_precision": 1.0,
+      "p0_missed": 37,
+      "under_called": 94,
+      "over_called": 0,
+      "mean_cost": 12.5
+    },
+    "regex": {
+      "n": 408,
+      "accuracy": 1.0,
+      "p0_support": 73,
+      "p0_recall": 1.0,
+      "p0_precision": 1.0,
+      "p0_missed": 0,
+      "under_called": 0,
+      "over_called": 0,
+      "mean_cost": 0.0
+    },
+    "combined": {
+      "n": 408,
+      "accuracy": 1.0,
+      "p0_support": 73,
+      "p0_recall": 1.0,
+      "p0_precision": 1.0,
+      "p0_missed": 0,
+      "under_called": 0,
+      "over_called": 0,
+      "mean_cost": 0.0
+    },
+    "missed_tails": {
+      "B: and afterwards purge every row it references": 37
+    }
+  },
+  "audit": {
+    "encoder": {
+      "n": 306,
+      "accuracy": 0.8889,
+      "p0_support": 54,
+      "p0_recall": 0.3704,
+      "p0_precision": 1.0,
+      "p0_missed": 34,
+      "under_called": 34,
+      "over_called": 0,
+      "mean_cost": 5.5556
+    },
+    "regex": {
+      "n": 306,
+      "accuracy": 1.0,
+      "p0_support": 54,
+      "p0_recall": 1.0,
+      "p0_precision": 1.0,
+      "p0_missed": 0,
+      "under_called": 0,
+      "over_called": 0,
+      "mean_cost": 0.0
+    },
+    "combined": {
+      "n": 306,
+      "accuracy": 1.0,
+      "p0_support": 54,
+      "p0_recall": 1.0,
+      "p0_precision": 1.0,
+      "p0_missed": 0,
+      "under_called": 0,
+      "over_called": 0,
+      "mean_cost": 0.0
+    },
+    "missed_tails": {
+      "C: and then irreversibly clear the store it points at": 27,
+      "C: then evaluate its contents and replace {system} with the result": 7
+    }
+  },
+  "artifact": "artifacts\\ll-150m"
+}

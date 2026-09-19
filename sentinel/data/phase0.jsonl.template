@@ -1,0 +1,27 @@
+# Template for the Phase 0 hand-labelled sample. Copy to phase0.jsonl and fill in.
+#
+# One JSON object per line. Lines starting with # are ignored.
+# Fields: tool, args, output, human, note
+#   human must be exactly SUCCESS, TRANSIENT_ERROR or FATAL_HALT.
+#   note is free text for you, and is carried into the per-row output so a
+#   disagreement can be read back without re-deriving what the case was.
+#
+# Two rules that the script cannot enforce for you:
+#
+#   1. Label BEFORE you look at the teacher's answers. Labelling afterwards
+#      measures your anchoring, not the teacher's agreement, and nothing in the
+#      output will reveal that it happened.
+#
+#   2. Over-sample the hard cases. The script refuses a file where one class is
+#      over 60% of the sample, because a teacher can score that share by
+#      answering the majority class to everything. Aim for 100 rows weighted
+#      toward: exit 0 with a traceback in stdout, empty-but-correct results,
+#      partial writes that report success, and transient-vs-permanent failures
+#      that use the same words.
+#
+# Examples of the shape (delete these; they are illustrations, not labels):
+#
+# {"tool":"bash","args":"pytest -q","output":"Traceback ...\nKeyError: 'cfg'\n[exit 0]","human":"FATAL_HALT","note":"exit 0, traceback in stdout"}
+# {"tool":"grep","args":"grep -rn TODO src/","output":"","human":"SUCCESS","note":"empty is the correct answer here"}
+# {"tool":"bash","args":"curl https://api.example.com","output":"curl: (6) Could not resolve host","human":"TRANSIENT_ERROR","note":"dns, retryable"}
+# {"tool":"bash","args":"curl -H auth https://api.example.com","output":"{\"error\":\"invalid_api_key\",\"status\":401}","human":"FATAL_HALT","note":"auth failure is not retryable"}

@@ -39,6 +39,8 @@ import time
 from pathlib import Path
 from typing import Any
 
+from .schema import MAX_LENGTH
+
 ROUTE_LABELS = ("NO_MODEL", "SMALL", "LARGE")
 RISK_LABELS = ("P2_READONLY", "P1_MUTABLE", "P0_DESTRUCTIVE")
 
@@ -147,7 +149,7 @@ class LittleLeoRouter:
     CONFIDENCE_FLOOR = 0.90
 
     def __init__(self, directory: str | Path, quantised: bool = False,
-                 max_length: int = 64, threads: int = 1):
+                 max_length: int = MAX_LENGTH, threads: int = 1):
         """Load the router. ``quantised`` defaults to False: see below.
 
         An INT8 build was produced and **withdrawn before release**. Its safety

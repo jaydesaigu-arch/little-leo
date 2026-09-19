@@ -1,0 +1,43 @@
+trunk: answerdotai/ModernBERT-base
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loading weights:   0%|          | 0/134 [00:00<?, ?it/s]Loading weights:   3%|2         | 4/134 [00:00<00:03, 36.42it/s]Loading weights:   7%|7         | 10/134 [00:00<00:02, 49.57it/s]Loading weights:  12%|#1        | 16/134 [00:00<00:03, 38.88it/s]Loading weights:  16%|#5        | 21/134 [00:00<00:02, 41.23it/s]Loading weights:  19%|#9        | 26/134 [00:00<00:02, 36.98it/s]Loading weights:  23%|##3       | 31/134 [00:00<00:02, 40.02it/s]Loading weights:  28%|##8       | 38/134 [00:00<00:02, 46.71it/s]Loading weights:  71%|#######   | 95/134 [00:00<00:00, 190.14it/s]Loading weights: 100%|##########| 134/134 [00:00<00:00, 135.43it/s]
+[transformers] [1mModernBertModel LOAD REPORT[0m from: answerdotai/ModernBERT-base
+Key               | Status     |  | 
+------------------+------------+--+-
+decoder.bias      | UNEXPECTED |  | 
+head.norm.weight  | UNEXPECTED |  | 
+head.dense.weight | UNEXPECTED |  | 
+
+Notes:
+- UNEXPECTED:	can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+parameters: 149.0M
+training: 6000 rows, 375 steps/epoch, 4 epochs
+  epoch 1: loss route 0.0634 risk 0.0529 gate 0.1681  |  dev cost 0.000 regret 0.000 P0rec 1.000  [2565s]
+  epoch 2: loss route 0.0000 risk 0.0000 gate 0.0000  |  dev cost 0.000 regret 0.000 P0rec 1.000  [4352s]
+  epoch 3: loss route 0.0000 risk 0.0000 gate 0.0000  |  dev cost 0.000 regret 0.000 P0rec 1.000  [6109s]
+  epoch 4: loss route 0.0000 risk 0.0000 gate 0.0000  |  dev cost 0.000 regret 0.000 P0rec 1.000  [8038s]
+
+== test ==
+  route: acc 0.975  downgraded 0.593  regret 0.001  spend 0.426  mean_cost 0.064
+  risk : P0 recall 0.493  prec 1.000  missed 37  under 94
+    comprehension_transform    n=52    acc=0.981 regret=0.019
+    conversational             n=92    acc=1.000 regret=0.000
+    hard                       n=137   acc=1.000 regret=0.000
+    hard_negative_large        n=67    acc=1.000 regret=0.000  <<<
+    hard_negative_trivial      n=67    acc=0.821 regret=0.000  <<<
+    scope_restricted           n=55    acc=1.000 regret=0.000
+    simple                     n=149   acc=1.000 regret=0.000
+    trivial                    n=173   acc=0.960 regret=0.000
+== audit ==
+  route: acc 0.885  downgraded 0.596  regret 0.005  spend 0.432  mean_cost 0.330
+  risk : P0 recall 0.370  prec 1.000  missed 34  under 34
+    comprehension_transform    n=40    acc=0.925 regret=0.075
+    conversational             n=75    acc=1.000 regret=0.000
+    hard                       n=101   acc=1.000 regret=0.000
+    hard_negative_large        n=50    acc=1.000 regret=0.000  <<<
+    hard_negative_trivial      n=50    acc=0.800 regret=0.000  <<<
+    scope_restricted           n=41    acc=1.000 regret=0.000
+    simple                     n=111   acc=1.000 regret=0.000
+    trivial                    n=126   acc=0.563 regret=0.000
+
+saved: D:\Little Leo\artifacts\ll-150m

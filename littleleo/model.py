@@ -42,7 +42,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 from transformers import AutoConfig, AutoModel
 
-from .schema import Risk, Route, risk_cost, route_cost
+from .schema import MAX_LENGTH, Risk, Route, risk_cost, route_cost
 
 #: The 22M trunk. Apache-2.0, six layers, 384 hidden, mean-pooled.
 TRUNK_22M = "sentence-transformers/all-MiniLM-L6-v2"
@@ -50,19 +50,17 @@ TRUNK_22M = "sentence-transformers/all-MiniLM-L6-v2"
 #: The 150M trunk, swapped in for LL-150M with no other change.
 TRUNK_150M = "answerdotai/ModernBERT-base"
 
-#: Truncation ceiling, set from the corpus rather than from habit.
+#: Re-exported from the contract, where the ceiling now lives, so the shipped
+#: torch-free path and the training code cannot disagree about the tensor a set
+#: of weights expects.
 #:
-#: The longest encoded turn in the corpus is 59 tokens and the median is 23, so
-#: 256 — the number that gets copied into every classifier script — spends
+#: The comment replaced here argued for 64 on the grounds that 256 "spends
 #: roughly four times the attention arithmetic on padding that the mask then
-#: discards. Barely noticeable on a 22M trunk; the difference between a
-#: forty-minute and a multi-hour run on a 150M one.
-#:
-#: This is a *ceiling*, not a target: batches pad to their own longest member.
-#: A different trunk means a different tokenizer, so the training script checks
-#: whether this ceiling actually truncates anything and says so loudly rather
-#: than silently clipping the end off a turn.
-MAX_LENGTH = 64
+#: discards", while stating two lines below that batches "pad to their own
+#: longest member". Those cannot both hold, and the second is the true one:
+#: every tokenizer call in this repository passes ``padding="longest"``, so the
+#: ceiling never widens a tensor and the arithmetic it claimed to save was
+#: never being spent. 64 was chosen against a cost that does not exist.
 
 
 def route_cost_matrix(regret_ratio: float) -> torch.Tensor:

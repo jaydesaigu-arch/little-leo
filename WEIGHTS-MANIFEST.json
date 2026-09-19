@@ -1,0 +1,75 @@
+{
+  "note": "Binary weights excluded from the archive. Hashes let any future copy be verified byte-for-byte.",
+  "files": [
+    {
+      "path": "artifacts/ll-150m/model.pt",
+      "bytes": 596130363,
+      "sha256": "6c124da8f27cd392b46327bea23fc4c9595e73c2c305befd8cd5e37d1a63b97a"
+    },
+    {
+      "path": "artifacts/ll-150m/onnx/model.int8.onnx",
+      "bytes": 150173894,
+      "sha256": "69860f7e8d6058581353bdc0ac293cb88a9cf858c29a04e48df4ae6693f4509d"
+    },
+    {
+      "path": "artifacts/ll-150m/onnx/model.onnx",
+      "bytes": 596766863,
+      "sha256": "caf25a3faed2fdec053b6ba9fb9a54e781d4dbc14169fc69d6f94b50f878fe30"
+    },
+    {
+      "path": "artifacts/ll-22m/model.pt",
+      "bytes": 90902199,
+      "sha256": "a35fd52824c4c9d50f9c8f5ee58b5bd561c1738d78d4378f6f0189115ac27932"
+    },
+    {
+      "path": "artifacts/ll-22m/onnx/model.onnx",
+      "bytes": 90413783,
+      "sha256": "39a1f9dca684523584236a3b735535a2bed662f55247da38bbcb5e43d7ab1b70"
+    },
+    {
+      "path": "artifacts/ll-22m-v3/model.pt",
+      "bytes": 90902199,
+      "sha256": "125ac0d15961bfb894391c525591ceba279ac98f38834cfb20ade7c51f082558"
+    },
+    {
+      "path": "artifacts/ll-22m-v3/onnx/model.int8.onnx",
+      "bytes": 22908815,
+      "sha256": "89b091a408da1a9d2358067df500fbc03489a92a4259ef094da22d3f0ff8a812"
+    },
+    {
+      "path": "artifacts/ll-22m-v3/onnx/model.onnx",
+      "bytes": 90413783,
+      "sha256": "6f35003ade03e9ef69e04d2ec69e5e12d8d35fdab014760f9aab19f40c5bcd7a"
+    },
+    {
+      "path": "publish/huggingface/model.onnx",
+      "bytes": 90413783,
+      "sha256": "39a1f9dca684523584236a3b735535a2bed662f55247da38bbcb5e43d7ab1b70"
+    },
+    {
+      "path": "safeguard/v4/artifacts-ll-22m/model.pt",
+      "bytes": 90902199,
+      "sha256": "a35fd52824c4c9d50f9c8f5ee58b5bd561c1738d78d4378f6f0189115ac27932"
+    },
+    {
+      "path": "safeguard/v4/artifacts-ll-22m/onnx/model.onnx",
+      "bytes": 90413783,
+      "sha256": "39a1f9dca684523584236a3b735535a2bed662f55247da38bbcb5e43d7ab1b70"
+    },
+    {
+      "path": "safeguard/v4/publish/huggingface/model.onnx",
+      "bytes": 90413783,
+      "sha256": "39a1f9dca684523584236a3b735535a2bed662f55247da38bbcb5e43d7ab1b70"
+    },
+    {
+      "path": "safeguard/v5/artifacts-ll-22m/onnx/model.onnx",
+      "bytes": 90413783,
+      "sha256": "39a1f9dca684523584236a3b735535a2bed662f55247da38bbcb5e43d7ab1b70"
+    },
+    {
+      "path": "safeguard/v5/publish/huggingface/model.onnx",
+      "bytes": 90413783,
+      "sha256": "39a1f9dca684523584236a3b735535a2bed662f55247da38bbcb5e43d7ab1b70"
+    }
+  ]
+}
